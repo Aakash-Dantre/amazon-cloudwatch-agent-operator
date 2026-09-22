@@ -23,6 +23,12 @@ const (
 	endpointSliceTargetNameLabel model.LabelName = "__meta_kubernetes_endpointslice_address_target_name"
 )
 
+// nodeNameLabels is the ordered set of discovery meta-labels consulted by
+// GetNodeName. Package-level so the per-node allocator does not allocate a fresh
+// slice for every target on every allocation cycle (handleCollectors re-allocates
+// every known target on any collector change).
+var nodeNameLabels = []model.LabelName{nodeNameLabelPod, nodeNameLabelNode, nodeNameLabelEndpoint}
+
 // LinkJSON This package contains common structs and methods that relate to scrape targets.
 type LinkJSON struct {
 	Link string `json:"_link"`
@@ -48,7 +54,7 @@ func (t *Item) Hash() string {
 // node can be determined (e.g. non-pod / external endpoints), in which case the
 // per-node strategy leaves the target unassigned.
 func (t *Item) GetNodeName() string {
-	for _, labelName := range []model.LabelName{nodeNameLabelPod, nodeNameLabelNode, nodeNameLabelEndpoint} {
+	for _, labelName := range nodeNameLabels {
 		if val := t.Labels[labelName]; val != "" {
 			return string(val)
 		}
