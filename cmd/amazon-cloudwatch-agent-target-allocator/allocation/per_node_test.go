@@ -163,7 +163,6 @@ func TestPerNodeReallocatesWhenCollectorAppears(t *testing.T) {
 	assert.Equal(t, "collector-b", bTargets[0].CollectorName)
 }
 
-
 // jobFilter keeps only targets whose job name matches keep.
 type jobFilter struct{ keep string }
 
@@ -397,7 +396,6 @@ func TestPerNodeHandleTargetsSkipsAlreadyTracked(t *testing.T) {
 	assert.Equal(t, 0, c.Collectors()["collector-a"].NumTargets, "guarded target must not be (re)assigned")
 }
 
-
 // TestPerNodeWarnsOnceWhenNoFallback verifies that a per-node allocator with no
 // fallback logs the "no fallback strategy configured" warning exactly once (not
 // per target) and leaves node-less targets unassigned.
@@ -430,7 +428,6 @@ func TestPerNodeWarnsOnceWhenNoFallback(t *testing.T) {
 	}
 	assert.Equal(t, 1, warnings, "no-fallback warning must be logged exactly once")
 }
-
 
 // TestPerNodeTwoCollectorsSameNodeTieBreak verifies that when two collectors
 // report the same node (e.g. a transient maxSurge DaemonSet rollout), the node

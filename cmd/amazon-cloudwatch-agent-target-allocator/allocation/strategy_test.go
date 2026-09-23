@@ -124,7 +124,6 @@ func TestCollectorDiff(t *testing.T) {
 	}
 }
 
-
 // TestWithFallbackStrategy covers the option's no-op branches: an empty name,
 // and an allocator that does not support a fallback strategy.
 func TestWithFallbackStrategy(t *testing.T) {
