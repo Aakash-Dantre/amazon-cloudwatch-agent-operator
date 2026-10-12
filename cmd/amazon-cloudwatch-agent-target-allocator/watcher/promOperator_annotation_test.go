@@ -161,8 +161,10 @@ func TestLoadConfigScraperRouting(t *testing.T) {
 			// Start both informers via the per-type lifecycle; startMonitorInformer
 			// waits for each cache to sync before registering it.
 			notifyEvents := make(chan struct{}, 2)
-			require.NoError(t, w.startMonitorInformer(monitoringv1.ServiceMonitorName, notifyEvents))
-			require.NoError(t, w.startMonitorInformer(monitoringv1.PodMonitorName, notifyEvents))
+			_, err := w.startMonitorInformer(monitoringv1.ServiceMonitorName, notifyEvents)
+			require.NoError(t, err)
+			_, err = w.startMonitorInformer(monitoringv1.PodMonitorName, notifyEvents)
+			require.NoError(t, err)
 
 			got, err := w.LoadConfig(context.Background())
 			require.NoError(t, err)
